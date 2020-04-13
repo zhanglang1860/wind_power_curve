@@ -268,11 +268,11 @@ class WindRules(Wind):
 
 if __name__ == "__main__":
     path = '../2710.txt'
-path1 = '../2710.xlsx'
-Wind = Wind(path)
-lines = Wind.check_lines()
-df = pd.read_excel(path1, skiprows=lines, sep='\s+')
-WindRules = WindRules(df, path1)
-df, df_h, df_temp_h = WindRules.pre_load()
+    path1 = '../2710.xlsx'
+    Wind = Wind(path)
+    lines = Wind.check_lines()
+    df = pd.read_excel(path1, skiprows=lines, sep='\s+')
+    WindRules = WindRules(df, path1)
+    df, df_h, df_temp_h = WindRules.pre_load()
 
-WindRules.wind_rules(df, df_h, df_temp_h)
+    WindRules.wind_rules(df, df_h, df_temp_h)
