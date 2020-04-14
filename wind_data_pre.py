@@ -305,11 +305,14 @@ class WindPower(Wind):
             wind_label_list.append(i+0.25)
             i+=0.5
         del(wind_label_list[-1])
-        self.df['wind_label']=pd.cut(self.df['Wind Speed (m/s)'],wind_label_bin,labels=wind_label_list)
+        self.df['wind_label_bin']=pd.cut(self.df['Wind Speed (m/s)'],wind_label_bin,labels=wind_label_list)
         self.df['month']=df.index.month
-        df_pivot=pd.pivot_table(self.df,index=['month','wind_label'],values=['LV ActivePower (kW)','Wind Speed (m/s)','Wind Direction (°)']
+        df_pivot_windspeed=pd.pivot_table(self.df,index=['month','wind_label_bin'],values=['LV ActivePower (kW)','Wind Speed (m/s)','Wind Direction (°)']
         ,aggfunc={'LV ActivePower (kW)':np.mean,'Wind Speed (m/s)':np.mean})
-        return df_pivot
+        return df_pivot_windspeed
+
+
+
 
 if __name__ == "__main__":
     path = './wind-turbine-scada-dataset/T1.csv'
@@ -318,11 +321,11 @@ if __name__ == "__main__":
     df=WindPower.pre_load_power_data()
 
     # df=df[df.index.month==1]
-    df_pivot=WindPower.windspeed_label(df)
-    print(df_pivot.loc[pd.IndexSlice[4:,6:],:].head())
-    # print(df_pivot[df_pivot.index.levels[1]>5].head())
+    df_pivot_windspeed=WindPower.windspeed_label(df)
 
-   
+  
+    df_pivot=df_pivot_windspeed.loc[pd.IndexSlice[4:5,3:],:]#第一个是月份，第二个变量是风速标签
+    print(df_pivot)
     plt.scatter(x=df_pivot['Wind Speed (m/s)'],y=df_pivot['LV ActivePower (kW)'],color='DarkBlue',label='Class1')
     plt.show()
 
