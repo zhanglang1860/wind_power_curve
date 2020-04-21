@@ -8,6 +8,7 @@ import sys
 import math
 import time
 import matplotlib.pyplot as plt
+import pandas_profiling  
 
 class Wind:
     # '''
@@ -317,8 +318,13 @@ class WindPower(Wind):
 if __name__ == "__main__":
     path = './wind-turbine-scada-dataset/T1.csv'
     df = pd.read_csv(path)
+    profile = df.profile_report(title='Wind Dataset')
+    profile.to_file(output_file='./wind_report.html')
+
     WindPower=WindPower(df,path)
     df=WindPower.pre_load_power_data()
+
+
 
     # df=df[df.index.month==1]
     df_pivot_windspeed=WindPower.windspeed_label(df)
