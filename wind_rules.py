@@ -276,4 +276,4 @@ if __name__ == "__main__":
     df, df_h, df_temp_h = WindRules.pre_load()
 
     WindRules.wind_rules(df, df_h, df_temp_h)
-    #sss
+    #s
